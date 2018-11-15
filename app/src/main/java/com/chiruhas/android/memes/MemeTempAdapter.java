@@ -6,19 +6,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.chiruhas.android.memes.Pojo.Meme;
 import com.chiruhas.android.memes.Pojo.MemeModel;
+
 
 import java.util.List;
 
 
 public class MemeTempAdapter extends RecyclerView.Adapter<MemeTempAdapter.ViewHolder> {
 
-    private List<MemeModel> MemeModels;
+    private List<Meme> MemeModels;
 
 
-    public MemeTempAdapter(List<MemeModel> items) {
+    public MemeTempAdapter(List<Meme> items) {
         MemeModels = items;
 
     }
@@ -38,18 +41,22 @@ public class MemeTempAdapter extends RecyclerView.Adapter<MemeTempAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        MemeModel m = MemeModels.get(position);
-        String img=m.getUrl();
-        Glide.with(holder.itemView.getContext()).load(img).into(holder.iv);
+        Meme m = MemeModels.get(position);
+        //String img=m.getUrl();
+        //Glide.with(holder.itemView.getContext()).load(img).into(holder.iv);
+
+        holder.textView.setText(m.getName());
     }
 
 
     public class ViewHolder extends RecyclerView.ViewHolder  {
 
-        ImageView iv;
+       // ImageView iv;
+        TextView textView;
         public ViewHolder(View itemView) {
             super(itemView);
-            iv=itemView.findViewById(R.id.image);
+            //iv=itemView.findViewById(R.id.image);
+            textView = itemView.findViewById(R.id.text);
         }
 
     }

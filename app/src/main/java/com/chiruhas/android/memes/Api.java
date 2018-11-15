@@ -9,5 +9,5 @@ import retrofit2.http.GET;
 
 public interface Api {
     @GET("get_memes")
-    Call<List<MemeModel>> getMemes();
+    Call<MemeModel> getMemes();
 }
