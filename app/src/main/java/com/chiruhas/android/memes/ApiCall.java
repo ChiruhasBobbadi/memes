@@ -11,7 +11,13 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiCall {
-    public void call()
+    List<MemeModel> list;
+
+    public List<MemeModel> getList() {
+        return list;
+    }
+
+    public  void call()
     {
         Retrofit r = new Retrofit.Builder().baseUrl("https://api.imgflip.com/").addConverterFactory(GsonConverterFactory.create()).build();
         Api a = r.create(Api.class);
@@ -24,7 +30,8 @@ public class ApiCall {
                     return;
                 }
 
-                List<MemeModel> list = response.body();
+                 list= response.body();
+
 
             }
 
@@ -33,5 +40,6 @@ public class ApiCall {
 
             }
         });
+
     }
 }
