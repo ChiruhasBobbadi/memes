@@ -1,8 +1,6 @@
-package com.chiruhas.android.memes;
+package com.chiruhas.android.memes.RetrofitApiCall;
 
-import com.chiruhas.android.memes.Pojo.MemeModel;
-
-import java.util.List;
+import com.chiruhas.android.memes.Pojo.Templates.MemeModel;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

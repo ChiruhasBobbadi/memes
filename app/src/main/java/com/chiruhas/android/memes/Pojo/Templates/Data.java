@@ -1,6 +1,7 @@
-package com.chiruhas.android.memes.Pojo;
+package com.chiruhas.android.memes.Pojo.Templates;
 
 import java.util.List;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
