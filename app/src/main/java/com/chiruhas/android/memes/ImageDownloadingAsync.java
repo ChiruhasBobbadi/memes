@@ -9,7 +9,7 @@ import com.artjimlop.altex.AltexImageDownloader;
 import com.chiruhas.android.memes.Pojo.Templates.Meme;
 
 public class ImageDownloadingAsync extends AsyncTask<Void,Void,Void> {
-  private  Context context=null;
+    Context context=null;
 
    private  Meme m;
 
@@ -23,7 +23,7 @@ public class ImageDownloadingAsync extends AsyncTask<Void,Void,Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         MainActivity.pb.setVisibility(View.GONE);
-        
+
     }
 
     @Override
