@@ -1,4 +1,4 @@
-package com.chiruhas.android.memes;
+package com.chiruhas.android.memes.AsyncTasks;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -6,12 +6,13 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.artjimlop.altex.AltexImageDownloader;
+import com.chiruhas.android.memes.MainActivity;
 import com.chiruhas.android.memes.Pojo.Templates.Meme;
 
 public class ImageDownloadingAsync extends AsyncTask<Void,Void,Void> {
     Context context=null;
 
-   private  Meme m;
+     Meme m;
 
     public ImageDownloadingAsync(Context context, Meme m) {
         this.context = context;

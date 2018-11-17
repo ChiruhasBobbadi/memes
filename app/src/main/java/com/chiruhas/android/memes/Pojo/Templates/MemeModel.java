@@ -4,6 +4,7 @@ import com.chiruhas.android.memes.Pojo.Templates.Data;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+
 public class MemeModel {
 
     @SerializedName("success")

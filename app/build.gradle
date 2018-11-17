@@ -19,6 +19,12 @@ android {
 }
 
 dependencies {
+    // room
+    compile 'android.arch.persistence.room:runtime:1.0.0-alpha1'
+    annotationProcessor 'android.arch.persistence.room:compiler:1.0.0-alpha1'
+    // lifecycle components
+    compile 'android.arch.lifecycle:extensions:1.0.0-alpha1'
+    annotationProcessor 'android.arch.lifecycle:compiler:1.0.0-alpha1'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
@@ -40,5 +46,8 @@ dependencies {
     implementation 'pub.devrel:easypermissions:2.0.0'
 
     implementation 'com.github.chrisbanes:PhotoView:2.2.0'
+    //search view
+    implementation 'com.github.mancj:MaterialSearchBar:0.8.1'
+
 
 }

@@ -11,14 +11,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.chiruhas.android.memes.AsyncTasks.ImageDownloadingAsync;
 import com.chiruhas.android.memes.Pojo.Templates.Meme;
 import com.chiruhas.android.memes.Pojo.Templates.MemeModel;
 import com.chiruhas.android.memes.RetrofitApiCall.Api;
-
 
 import java.util.List;
 
@@ -34,7 +35,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks{
     private static final int PERMISSION_REQUEST_CODE = 1;
     RecyclerView rv;
-    static ProgressBar pb;
+   public static ProgressBar pb;
+
+    MemeModel me;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,22 +46,20 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         rv = findViewById(R.id.rv);
     pb=findViewById(R.id.progress);
     pb.setVisibility(View.GONE);
+
         rv.setHasFixedSize(true);
         rv.setLayoutManager(new GridLayoutManager(this, 2));
 
-
+        // fetching api response using retrofit
         Retrofit r = new Retrofit.Builder().baseUrl("https://api.imgflip.com/").addConverterFactory(GsonConverterFactory.create()).build();
         Api a = r.create(Api.class);
-
-
-
         Call<MemeModel> lst = a.getMemes();
         lst.enqueue(new Callback<MemeModel>() {
             @Override
             public void onResponse(Call<MemeModel> call, Response<MemeModel> response) {
 
                 if (response.isSuccessful()) {
-                    MemeModel me = response.body();
+                    me = response.body();
 
                     List<Meme> list = me.getData().getMemes();
                     MemeTempAdapter m = new MemeTempAdapter(list, MainActivity.this, new MemeTempAdapter.ItemListener() {
@@ -83,12 +84,10 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                 Toast.makeText(MainActivity.this, "Error...", Toast.LENGTH_SHORT).show();
             }
         });
-
-
-    }
+        // search view
+   }
 
     // image downloading  code
-
 
     private void downloadImage(final Meme m) {
         String perms[] = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
@@ -103,14 +102,9 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
             EasyPermissions.requestPermissions(MainActivity.this,"We need permission for downloading file",PERMISSION_REQUEST_CODE,perms);
         }
     }
-
-
-
     // end of image downloading code
 
 // !! Permisssion check code //
-
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -138,4 +132,11 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                     .show();
         }
     }
-}
+
+    // Search view
+    }
+
+
+
+
+
