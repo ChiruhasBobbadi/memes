@@ -23,7 +23,7 @@ public class ImageDownloadingAsync extends AsyncTask<Void,Void,Void> {
 
     @Override
     protected void onPostExecute(Void aVoid) {
-        MainActivity.pb.setVisibility(View.GONE);
+
 
     }
 
@@ -35,6 +35,6 @@ public class ImageDownloadingAsync extends AsyncTask<Void,Void,Void> {
 
     @Override
     protected void onPreExecute() {
-        MainActivity.pb.setVisibility(View.VISIBLE);
+
     }
 }

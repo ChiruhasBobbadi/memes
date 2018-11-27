@@ -3,7 +3,9 @@ package com.chiruhas.android.memes.Pojo.Templates;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Meme {
+import java.io.Serializable;
+
+public class Meme implements Serializable {
 
     @SerializedName("id")
     @Expose
