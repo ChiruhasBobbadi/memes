@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -24,7 +25,8 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.chiruhas.android.memes.AsyncTasks.ImageDownloadingAsync;
+import com.artjimlop.altex.AltexImageDownloader;
+
 import com.chiruhas.android.memes.Pojo.Templates.Meme;
 import com.chiruhas.android.memes.Pojo.Templates.MemeModel;
 import com.chiruhas.android.memes.RetrofitApiCall.Api;
@@ -41,7 +43,7 @@ public class MemeTempFragment extends Fragment  implements EasyPermissions.Permi
 
     private MemeModel memeModel;
     private List<Meme> meme=new ArrayList<>();
-  public static ProgressBar pb;
+  public  ProgressBar pb;
     private OnFragmentInteractionListener mListener;
 
     RecyclerView rv;
@@ -89,22 +91,7 @@ public class MemeTempFragment extends Fragment  implements EasyPermissions.Permi
         }
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
 
     /**
      * This interface must be implemented by activities that contain this
@@ -125,7 +112,7 @@ public class MemeTempFragment extends Fragment  implements EasyPermissions.Permi
         String perms[] = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
         if (EasyPermissions.hasPermissions(getActivity(), perms)) {
 
-            new ImageDownloadingAsync(getActivity(),m).execute();
+            new ImageDownloader(m).execute();
 
 
         }
@@ -167,6 +154,7 @@ public class MemeTempFragment extends Fragment  implements EasyPermissions.Permi
 
     public void loadImages()
     {
+        pb.setVisibility(View.VISIBLE);
     Retrofit r = new Retrofit.Builder().baseUrl("https://api.imgflip.com/").addConverterFactory(GsonConverterFactory.create()).build();
     Api a = r.create(Api.class);
     Call<MemeModel> lst = a.getMemes();
@@ -175,6 +163,8 @@ public class MemeTempFragment extends Fragment  implements EasyPermissions.Permi
             public void onResponse(Call<MemeModel> call, Response<MemeModel> response) {
 
                 if (response.isSuccessful()) {
+                    Toast.makeText(getActivity(), "executed by"+Thread.currentThread().getName(), Toast.LENGTH_SHORT).show();
+                    pb.setVisibility(View.GONE);
                   memeModel=response.body();
                   meme = memeModel.getData().getMemes();
                     Toast.makeText(getActivity(), "Images loaded", Toast.LENGTH_SHORT).show();
@@ -201,5 +191,40 @@ public class MemeTempFragment extends Fragment  implements EasyPermissions.Permi
             }
         });
 
+    }
+
+    public class ImageDownloader extends AsyncTask<Void,Integer,Void>
+    {
+        Meme meme;
+
+        ImageDownloader(Meme m)
+        {
+            meme=m;
+        }
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pb.setVisibility(View.VISIBLE);
+            pb.setMax(100);
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            pb.setVisibility(View.GONE);
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            pb.setProgress(values[0]);
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            AltexImageDownloader.writeToDisk(getActivity(),meme.getUrl(),meme.getName()+"");
+            return null;
+        }
     }
 }

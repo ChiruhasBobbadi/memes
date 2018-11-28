@@ -44,11 +44,11 @@ public class MainActivity extends AppCompatActivity implements MemeTempFragment.
     @Override
     public void onMemeTempFragmentClick(Meme m) {
 
-        BlankFragment blankFragment = new BlankFragment();
+
         FragmentManager fragmentManager1 = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction1 = fragmentManager1.beginTransaction();
         fragmentTransaction1.addToBackStack(null);
-        fragmentTransaction1.replace(R.id.fragment,blankFragment);
+        //fragmentTransaction1.replace(R.id.fragment,blankFragment);
         fragmentTransaction1.commit();
     }
 }
