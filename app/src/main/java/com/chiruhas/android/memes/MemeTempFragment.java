@@ -21,6 +21,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.chiruhas.android.memes.AsyncTasks.ImageDownloadingAsync;
@@ -32,23 +33,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link MemeTempFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link MemeTempFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class MemeTempFragment extends Fragment  implements EasyPermissions.PermissionCallbacks{
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
+
+
+
     private static final int PERMISSION_REQUEST_CODE = 1;
 
-    MemeModel memeModel;
-    List<Meme> meme=new ArrayList<>();
-
+    private MemeModel memeModel;
+    private List<Meme> meme=new ArrayList<>();
+  public static ProgressBar pb;
     private OnFragmentInteractionListener mListener;
 
     RecyclerView rv;
@@ -61,10 +54,7 @@ public class MemeTempFragment extends Fragment  implements EasyPermissions.Permi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            meme= (ArrayList<Meme>) getArguments().getSerializable(ARG_PARAM1);
 
-        }
     }
 
     @Override
@@ -74,12 +64,15 @@ public class MemeTempFragment extends Fragment  implements EasyPermissions.Permi
         View view = inflater.inflate(R.layout.fragment_meme_temp, container, false);
 
         //instantiating our views
+        pb=view.findViewById(R.id.progress_bar);
+        pb.setVisibility(View.GONE);
         rv = view.findViewById(R.id.recycler_view);
         rv.setHasFixedSize(true);
         rv.setLayoutManager(new GridLayoutManager(getContext(), 2));
+
         loadImages();
         if (!meme.isEmpty()) {
-            Toast.makeText(getActivity(), "sucess", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "success", Toast.LENGTH_SHORT).show();
         } else
         {
             Toast.makeText(getActivity(), "List is empty", Toast.LENGTH_SHORT).show();
@@ -90,9 +83,9 @@ public class MemeTempFragment extends Fragment  implements EasyPermissions.Permi
     }
 
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
+    public void onButtonPressed(Meme m) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+            mListener.onMemeTempFragmentClick(m);
         }
     }
 
@@ -125,7 +118,7 @@ public class MemeTempFragment extends Fragment  implements EasyPermissions.Permi
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        void onMemeTempFragmentClick(Meme m);
     }
 
     private  void downloadImage(final Meme m) {
@@ -191,8 +184,10 @@ public class MemeTempFragment extends Fragment  implements EasyPermissions.Permi
                         @Override
                         public void onItemClicked(Meme m) {
                             // handle click events oF RECYCLER VIEW on fragment
+                            pb.setVisibility(View.VISIBLE);
                             Toast.makeText(getContext(), "clicked " + m.getName(), Toast.LENGTH_SHORT).show();
                             downloadImage(m);
+                            onButtonPressed(m);
                         }
                     });
                     rv.setAdapter(memeTempAdapter);

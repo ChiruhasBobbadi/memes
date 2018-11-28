@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import com.artjimlop.altex.AltexImageDownloader;
 import com.chiruhas.android.memes.MainActivity;
+import com.chiruhas.android.memes.MemeTempFragment;
 import com.chiruhas.android.memes.Pojo.Templates.Meme;
 
 public class ImageDownloadingAsync extends AsyncTask<Void,Void,Void> {
@@ -24,7 +25,7 @@ public class ImageDownloadingAsync extends AsyncTask<Void,Void,Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
 
-
+    MemeTempFragment.pb.setVisibility(View.GONE);
     }
 
     @Override
@@ -35,6 +36,6 @@ public class ImageDownloadingAsync extends AsyncTask<Void,Void,Void> {
 
     @Override
     protected void onPreExecute() {
-
+        //MemeTempFragment.pb.setVisibility(View.VISIBLE);
     }
 }
