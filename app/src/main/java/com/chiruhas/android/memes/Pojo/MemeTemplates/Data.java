@@ -1,4 +1,4 @@
-package com.chiruhas.android.memes.Pojo.Templates;
+package com.chiruhas.android.memes.Pojo.MemeTemplates;
 
 import java.util.List;
 

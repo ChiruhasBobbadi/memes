@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.chiruhas.android.memes.Pojo.Templates.Meme;
+import com.chiruhas.android.memes.Pojo.MemeTemplates.Meme;
 
 import java.util.List;
 

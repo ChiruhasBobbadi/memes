@@ -1,23 +1,18 @@
 package com.chiruhas.android.memes;
 
-import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.chiruhas.android.memes.Pojo.Templates.Meme;
-import com.chiruhas.android.memes.Pojo.Templates.MemeModel;
-import com.chiruhas.android.memes.RetrofitApiCall.Api;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
-import java.util.ArrayList;
+import com.chiruhas.android.memes.Pojo.MemeTemplates.Meme;
+
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements MemeTempFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements MemeTempFragment.OnFragmentInteractionListener,GiphFragment.OnFragmentInteractionListener {
 
     List<Meme> list;
 
@@ -45,11 +40,18 @@ public class MainActivity extends AppCompatActivity implements MemeTempFragment.
     public void onMemeTempFragmentClick(Meme m) {
 
 
+        GiphFragment giphFragment = new GiphFragment();
         FragmentManager fragmentManager1 = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction1 = fragmentManager1.beginTransaction();
         fragmentTransaction1.addToBackStack(null);
-        //fragmentTransaction1.replace(R.id.fragment,blankFragment);
+        fragmentTransaction1.replace(R.id.fragment,giphFragment);
         fragmentTransaction1.commit();
+    }
+
+
+    @Override
+    public void onGiphFragCallBack() {
+
     }
 }
 
