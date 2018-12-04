@@ -1,14 +1,13 @@
-package com.chiruhas.android.memes;
+package com.chiruhas.android.memes.view;
 
-import android.net.Uri;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.chiruhas.android.memes.Pojo.MemeTemplates.Meme;
+import com.chiruhas.android.memes.Model.Meme_Model.MemeTemplates.Meme;
+import com.chiruhas.android.memes.R;
 
 import java.util.List;
 

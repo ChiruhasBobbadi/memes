@@ -1,4 +1,4 @@
-package com.chiruhas.android.memes;
+package com.chiruhas.android.memes.view;
 
 import android.Manifest;
 import android.content.Context;
@@ -26,9 +26,11 @@ import android.widget.Toast;
 
 import com.artjimlop.altex.AltexImageDownloader;
 
-import com.chiruhas.android.memes.Pojo.MemeTemplates.Meme;
-import com.chiruhas.android.memes.Pojo.MemeTemplates.MemeModel;
-import com.chiruhas.android.memes.RetrofitApiCall.Api;
+import com.chiruhas.android.memes.Model.Meme_Model.MemeTemplates.Meme;
+import com.chiruhas.android.memes.Model.Meme_Model.MemeTemplates.MemeModel;
+import com.chiruhas.android.memes.R;
+import com.chiruhas.android.memes.Data.RetrofitApiCall.Api;
+import com.chiruhas.android.memes.view.adapter.MemeTempAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

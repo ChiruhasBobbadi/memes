@@ -1,5 +1,5 @@
 
-package com.chiruhas.android.memes;
+package com.chiruhas.android.memes.view.adapter;
 
 import android.content.Context;
 import androidx.recyclerview.widget.RecyclerView;
@@ -8,7 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.chiruhas.android.memes.Pojo.MemeTemplates.Meme;
+import com.chiruhas.android.memes.Model.Meme_Model.MemeTemplates.Meme;
+import com.chiruhas.android.memes.R;
 
 import java.util.List;
 

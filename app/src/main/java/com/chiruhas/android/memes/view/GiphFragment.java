@@ -1,7 +1,6 @@
-package com.chiruhas.android.memes;
+package com.chiruhas.android.memes.view;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -16,8 +15,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.chiruhas.android.memes.Pojo.MemeTemplates.Giphs.GiphPojo;
-import com.chiruhas.android.memes.RetrofitApiCall.GiphyAPI;
+import com.chiruhas.android.memes.Model.Meme_Model.MemeTemplates.Giphs.GiphPojo;
+import com.chiruhas.android.memes.R;
+import com.chiruhas.android.memes.Data.RetrofitApiCall.GiphyAPI;
 
 
 public class GiphFragment extends Fragment {
