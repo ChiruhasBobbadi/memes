@@ -13,10 +13,9 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class DataRepository {
-    MutableLiveData<MemeModel> memeData;
+    MutableLiveData<MemeModel> memeData = new MutableLiveData<>();
    // MutableLiveData<GiphPojo> giph;
     Retrofit retrofit;
-
     public LiveData<MemeModel> getMemeData()
     {
         retrofit =  new Retrofit.Builder().baseUrl("https://api.imgflip.com/").addConverterFactory(GsonConverterFactory.create()).build();
@@ -36,9 +35,4 @@ public class DataRepository {
         });
         return memeData;
     }
-
-//    public LiveData<GiphPojo> getGiphs()
-//    {
-//
-//    }
 }

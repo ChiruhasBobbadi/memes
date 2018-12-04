@@ -1,26 +1,26 @@
 package com.chiruhas.android.memes.view;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.chiruhas.android.memes.Model.Meme_Model.MemeTemplates.Meme;
+import com.chiruhas.android.memes.Model.Meme_Model.MemeTemplates.MemeModel;
 import com.chiruhas.android.memes.R;
+import com.chiruhas.android.memes.viewmodel.MemeViewModel;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements MemeTempFragment.OnFragmentInteractionListener,GiphFragment.OnFragmentInteractionListener {
-
-    List<Meme> list;
-
-
-
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
 
-
+    MemeViewModel viewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +33,9 @@ public class MainActivity extends AppCompatActivity implements MemeTempFragment.
             MemeTempFragment memeTempFragment = new MemeTempFragment();
             fragmentTransaction.add(R.id.fragment, memeTempFragment).commit();
         }
+
+
+
     }
 
     @Override

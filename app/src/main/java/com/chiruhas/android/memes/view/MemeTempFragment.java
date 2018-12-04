@@ -7,7 +7,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import pub.devrel.easypermissions.AppSettingsDialog;
@@ -30,7 +35,9 @@ import com.chiruhas.android.memes.Model.Meme_Model.MemeTemplates.Meme;
 import com.chiruhas.android.memes.Model.Meme_Model.MemeTemplates.MemeModel;
 import com.chiruhas.android.memes.R;
 import com.chiruhas.android.memes.Data.RetrofitApiCall.Api;
+import com.chiruhas.android.memes.databinding.FragmentMemeTempBinding;
 import com.chiruhas.android.memes.view.adapter.MemeTempAdapter;
+import com.chiruhas.android.memes.viewmodel.MemeViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,10 +50,15 @@ public class MemeTempFragment extends Fragment implements EasyPermissions.Permis
 
     private MemeModel memeModel;
     private List<Meme> meme = new ArrayList<>();
-    public ProgressBar pb;
-    OnFragmentInteractionListener mListener;
 
-    RecyclerView rv;
+    OnFragmentInteractionListener mListener;
+    MemeViewModel viewModel;
+    FragmentMemeTempBinding binding;
+
+
+    MemeTempAdapter adapter;
+
+
 
     public MemeTempFragment() {
         // Required empty public constructor
@@ -76,30 +88,41 @@ public class MemeTempFragment extends Fragment implements EasyPermissions.Permis
         mListener = null;
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        viewModel = ViewModelProviders.of(this).get(MemeViewModel.class);
+        viewModel.getMemes().observe(getViewLifecycleOwner(), new Observer<MemeModel>() {
+            @Override
+            public void onChanged(MemeModel memeModel) {
+                adapter.setData(memeModel.getData().getMemes());
+                Toast.makeText(getActivity(), "Items observed", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_meme_temp, container, false);
-
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_meme_temp, container, false);
+        View view = binding.getRoot();
         //instantiating our views
-        pb = view.findViewById(R.id.progress_bar);
-        pb.setVisibility(View.GONE);
-        rv = view.findViewById(R.id.recycler_view);
-        rv.setHasFixedSize(true);
-        rv.setLayoutManager(new GridLayoutManager(getContext(), 2));
-
-        loadImages();
-        if (!meme.isEmpty()) {
-            Toast.makeText(getActivity(), "success", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(getActivity(), "List is empty", Toast.LENGTH_SHORT).show();
-        }
+        RecyclerView recyclerView = binding.recyclerView;
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        adapter = new MemeTempAdapter(getActivity(), new MemeTempAdapter.ItemListener() {
+            @Override
+            public void onItemClicked(Meme m) {
+                //
+            }
+        });
+        recyclerView.setAdapter(adapter);
 
         return view;
-
     }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Meme m) {
@@ -125,17 +148,17 @@ public class MemeTempFragment extends Fragment implements EasyPermissions.Permis
         void onMemeTempFragmentClick(Meme m);
     }
 
-    private void downloadImage(final Meme m) {
-        String perms[] = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
-        if (EasyPermissions.hasPermissions(getActivity(), perms)) {
-
-            new ImageDownloader(m).execute();
-
-
-        } else {
-            EasyPermissions.requestPermissions(getActivity(), "We need permission for downloading file", PERMISSION_REQUEST_CODE, perms);
-        }
-    }
+//   private void downloadImage(final Meme m) {
+//        String perms[] = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
+//        if (EasyPermissions.hasPermissions(getActivity(), perms)) {
+//
+//            new ImageDownloader(m).execute();
+//
+//
+//        } else {
+//            EasyPermissions.requestPermissions(getActivity(), "We need permission for downloading file", PERMISSION_REQUEST_CODE, perms);
+//        }
+//    }
 
     // !! Permisssion check code //
     @Override
@@ -168,78 +191,48 @@ public class MemeTempFragment extends Fragment implements EasyPermissions.Permis
     }
 
 
-    public void loadImages() {
-        pb.setVisibility(View.VISIBLE);
-        Retrofit r = new Retrofit.Builder().baseUrl("https://api.imgflip.com/").addConverterFactory(GsonConverterFactory.create()).build();
-        Api a = r.create(Api.class);
-        Call<MemeModel> lst = a.getMemes();
-        lst.enqueue(new Callback<MemeModel>() {
-            @Override
-            public void onResponse(Call<MemeModel> call, Response<MemeModel> response) {
+//    public class ImageDownloader extends AsyncTask<Void, Integer, Void> {
+//        Meme meme;
+//
+//        ImageDownloader(Meme m) {
+//            meme = m;
+//        }
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            pb.setVisibility(View.VISIBLE);
+//            pb.setMax(100);
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void aVoid) {
+//            super.onPostExecute(aVoid);
+//            pb.setVisibility(View.GONE);
+//        }
+//
+//        @Override
+//        protected void onProgressUpdate(Integer... values) {
+//            super.onProgressUpdate(values);
+//            pb.setProgress(values[0]);
+//        }
+//
+//        @Override
+//        protected Void doInBackground(Void... voids) {
+//
+//            AltexImageDownloader.writeToDisk(getActivity(), meme.getUrl(), meme.getName() + "");
+//            return null;
+//        }
+//    }
 
-                if (response.isSuccessful()) {
+    class ClickHandlers {
+        Context context;
 
-                    pb.setVisibility(View.GONE);
-                    memeModel = response.body();
-                    meme = memeModel.getData().getMemes();
-                    Toast.makeText(getActivity(), "Images loaded", Toast.LENGTH_SHORT).show();
-
-                    MemeTempAdapter memeTempAdapter = new MemeTempAdapter(meme, getContext(), new MemeTempAdapter.ItemListener() {
-
-                        @Override
-                        public void onItemClicked(Meme m) {
-                            // handle click events oF RECYCLER VIEW on fragment
-                            pb.setVisibility(View.VISIBLE);
-                            Toast.makeText(getContext(), "clicked " + m.getName(), Toast.LENGTH_SHORT).show();
-                            downloadImage(m);
-                            onButtonPressed(m);
-                        }
-                    });
-                    rv.setAdapter(memeTempAdapter);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MemeModel> call, Throwable t) {
-                Toast.makeText(getActivity(), "Error...", Toast.LENGTH_SHORT).show();
-
-                // inflate a error message view
-            }
-        });
-
-    }
-
-    public class ImageDownloader extends AsyncTask<Void, Integer, Void> {
-        Meme meme;
-
-        ImageDownloader(Meme m) {
-            meme = m;
+        ClickHandlers(Context c) {
+            context = c;
         }
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            pb.setVisibility(View.VISIBLE);
-            pb.setMax(100);
-        }
 
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            pb.setVisibility(View.GONE);
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate(values);
-            pb.setProgress(values[0]);
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-
-            AltexImageDownloader.writeToDisk(getActivity(), meme.getUrl(), meme.getName() + "");
-            return null;
-        }
     }
 }
+

@@ -11,20 +11,26 @@ import android.widget.TextView;
 import com.chiruhas.android.memes.Model.Meme_Model.MemeTemplates.Meme;
 import com.chiruhas.android.memes.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class MemeTempAdapter extends RecyclerView.Adapter<MemeTempAdapter.ViewHolder> {
 
-    private List<Meme> MemeModels;
+    private List<Meme> MemeModels = new ArrayList<>();
     Context context;
     private ItemListener myListener;
 
-    public MemeTempAdapter(List<Meme> items,Context context,ItemListener item) {
-        MemeModels = items;
+    public MemeTempAdapter(Context context,ItemListener item) {
+
         this.context=context;
         myListener=item;
 
+    }
+    public void setData(List<Meme> items)
+    {
+        MemeModels = items;
+        notifyDataSetChanged();
     }
     public void setListener(ItemListener listener) {
         myListener = listener;
@@ -45,18 +51,11 @@ public class MemeTempAdapter extends RecyclerView.Adapter<MemeTempAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         final Meme m = MemeModels.get(position);
-        //String img=m.getUrl();
-        //Glide.with(holder.itemView.getContext()).load(img).into(holder.iv);
-
         holder.textView.setText(m.getName());
-
-
-
         holder.textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 myListener.onItemClicked(m);
-
             }
         });
     }
