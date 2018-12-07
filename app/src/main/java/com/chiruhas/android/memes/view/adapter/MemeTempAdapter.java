@@ -6,8 +6,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.chiruhas.android.memes.Model.Meme_Model.MemeTemplates.Meme;
 import com.chiruhas.android.memes.R;
 
@@ -52,12 +54,7 @@ public class MemeTempAdapter extends RecyclerView.Adapter<MemeTempAdapter.ViewHo
 
         final Meme m = MemeModels.get(position);
         holder.textView.setText(m.getName());
-        holder.textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                myListener.onItemClicked(m);
-            }
-        });
+       Glide.with(holder.iv.getContext()).load(m.getUrl()).into(holder.iv);
     }
     public interface ItemListener {
         void onItemClicked(Meme m);
@@ -69,11 +66,12 @@ public class MemeTempAdapter extends RecyclerView.Adapter<MemeTempAdapter.ViewHo
 
        // ImageView iv;
         TextView textView;
-
+        ImageView iv;
         public ViewHolder(View itemView) {
             super(itemView);
             //iv=itemView.findViewById(R.id.image);
             textView = itemView.findViewById(R.id.text);
+            iv = itemView.findViewById(R.id.iv);
 
 
         }
