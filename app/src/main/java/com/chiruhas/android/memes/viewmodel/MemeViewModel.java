@@ -31,7 +31,5 @@ public class MemeViewModel extends AndroidViewModel {
     return meme;
     }
 
-//    public LiveData<MemeModel> getMemes() {
-//        return meme;
-//    }
+
 }
