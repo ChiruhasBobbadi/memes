@@ -3,6 +3,8 @@ package com.chiruhas.android.memes.view.adapter;
 
 import android.content.Context;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.chiruhas.android.memes.Model.Meme_Model.MemeTemplates.Meme;
 import com.chiruhas.android.memes.R;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +26,10 @@ public class MemeTempAdapter extends RecyclerView.Adapter<MemeTempAdapter.ViewHo
     private List<Meme> MemeModels = new ArrayList<>();
     Context context;
     private ItemListener myListener;
+
+
+
+
 
     public MemeTempAdapter(Context context,ItemListener item) {
 
@@ -54,7 +62,7 @@ public class MemeTempAdapter extends RecyclerView.Adapter<MemeTempAdapter.ViewHo
 
         final Meme m = MemeModels.get(position);
         holder.textView.setText(m.getName());
-       Glide.with(holder.iv.getContext()).load(m.getUrl()).into(holder.iv);
+       Glide.with(holder.iv.getContext()).load(m.getUrl()).centerCrop().into(holder.iv);
     }
     public interface ItemListener {
         void onItemClicked(Meme m);
@@ -73,6 +81,10 @@ public class MemeTempAdapter extends RecyclerView.Adapter<MemeTempAdapter.ViewHo
             textView = itemView.findViewById(R.id.text);
             iv = itemView.findViewById(R.id.iv);
 
+//            YoYo.with(Techniques.FadeInUp)
+//                    .duration(1000)
+//                    .repeat(0)
+//                    .playOn(itemView);
 
         }
 

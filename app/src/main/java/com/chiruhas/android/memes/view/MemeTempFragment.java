@@ -111,7 +111,7 @@ public class MemeTempFragment extends Fragment implements EasyPermissions.Permis
         //instantiating our views
         RecyclerView recyclerView = binding.recyclerView;
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
         adapter = new MemeTempAdapter(getActivity(), new MemeTempAdapter.ItemListener() {
             @Override
             public void onItemClicked(Meme m) {
