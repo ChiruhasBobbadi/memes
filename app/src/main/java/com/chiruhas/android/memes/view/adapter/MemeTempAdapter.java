@@ -2,9 +2,12 @@
 package com.chiruhas.android.memes.view.adapter;
 
 import android.content.Context;
+
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.DisplayMetrics;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +16,16 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.chiruhas.android.memes.Model.Meme_Model.MemeTemplates.Meme;
+import com.chiruhas.android.memes.Model.RoomModel.CacheMemeModel;
 import com.chiruhas.android.memes.R;
+import com.chiruhas.android.memes.viewmodel.MemeViewModel;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.google.gson.reflect.TypeToken.get;
 
 
 public class MemeTempAdapter extends RecyclerView.Adapter<MemeTempAdapter.ViewHolder> {
@@ -29,11 +36,9 @@ public class MemeTempAdapter extends RecyclerView.Adapter<MemeTempAdapter.ViewHo
 
 
 
+    public MemeTempAdapter(Context conte,ItemListener item) {
 
-
-    public MemeTempAdapter(Context context,ItemListener item) {
-
-        this.context=context;
+        this.context=conte;
         myListener=item;
 
     }
@@ -63,9 +68,16 @@ public class MemeTempAdapter extends RecyclerView.Adapter<MemeTempAdapter.ViewHo
         final Meme m = MemeModels.get(position);
         holder.textView.setText(m.getName());
        Glide.with(holder.iv.getContext()).load(m.getUrl()).centerCrop().into(holder.iv);
+       holder.love.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+             myListener.onLoveClicked(m);
+           }
+       });
+
     }
     public interface ItemListener {
-        void onItemClicked(Meme m);
+        void onLoveClicked(Meme m);
     }
 
 
@@ -75,11 +87,13 @@ public class MemeTempAdapter extends RecyclerView.Adapter<MemeTempAdapter.ViewHo
        // ImageView iv;
         TextView textView;
         ImageView iv;
+        ImageView love;
         public ViewHolder(View itemView) {
             super(itemView);
             //iv=itemView.findViewById(R.id.image);
             textView = itemView.findViewById(R.id.text);
             iv = itemView.findViewById(R.id.iv);
+            love = itemView.findViewById(R.id.love);
 
 //            YoYo.with(Techniques.FadeInUp)
 //                    .duration(1000)

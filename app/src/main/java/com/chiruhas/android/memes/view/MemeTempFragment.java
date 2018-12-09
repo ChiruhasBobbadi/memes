@@ -23,6 +23,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ import com.artjimlop.altex.AltexImageDownloader;
 
 import com.chiruhas.android.memes.Model.Meme_Model.MemeTemplates.Meme;
 import com.chiruhas.android.memes.Model.Meme_Model.MemeTemplates.MemeModel;
+import com.chiruhas.android.memes.Model.RoomModel.CacheMemeModel;
 import com.chiruhas.android.memes.R;
 import com.chiruhas.android.memes.Data.RetrofitApiCall.Api;
 import com.chiruhas.android.memes.databinding.FragmentMemeTempBinding;
@@ -96,9 +98,10 @@ public class MemeTempFragment extends Fragment implements EasyPermissions.Permis
             @Override
             public void onChanged(MemeModel memeModel) {
                 adapter.setData(memeModel.getData().getMemes());
-                Toast.makeText(getActivity(), "Items observed", Toast.LENGTH_SHORT).show();
+
             }
         });
+
 
     }
 
@@ -114,9 +117,12 @@ public class MemeTempFragment extends Fragment implements EasyPermissions.Permis
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
         adapter = new MemeTempAdapter(getActivity(), new MemeTempAdapter.ItemListener() {
             @Override
-            public void onItemClicked(Meme m) {
-                //
+            public void onLoveClicked(Meme m) {
+                viewModel.insert(new CacheMemeModel(m.getName(),m.getUrl(),m.getWidth(),m.getHeight()));
+                Toast.makeText(getContext(), "Cached", Toast.LENGTH_SHORT).show();
             }
+
+
         });
         recyclerView.setAdapter(adapter);
 
@@ -131,6 +137,8 @@ public class MemeTempFragment extends Fragment implements EasyPermissions.Permis
         }
 
     }
+
+
 
 
     /**

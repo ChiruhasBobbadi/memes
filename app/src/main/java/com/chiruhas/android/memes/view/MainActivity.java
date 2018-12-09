@@ -19,8 +19,9 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements MemeTempFragment.OnFragmentInteractionListener,GiphFragment.OnFragmentInteractionListener {
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
-
     MemeViewModel viewModel;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements MemeTempFragment.
             MemeTempFragment memeTempFragment = new MemeTempFragment();
             fragmentTransaction.add(R.id.fragment, memeTempFragment).commit();
         }
-
+        viewModel = ViewModelProviders.of(this).get(MemeViewModel.class);
 
 
     }

@@ -23,9 +23,12 @@ android {
 
 dependencies {
 
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0-alpha1'
-    compile 'android.arch.persistence.room:runtime:1.0.0-alpha1'
-    annotationProcessor 'android.arch.persistence.room:compiler:1.0.0-alpha1'
+    def room_version = "1.1.1"
+
+
+    // room components
+    implementation "android.arch.persistence.room:runtime:$room_version"
+    annotationProcessor "android.arch.persistence.room:compiler:$room_version"
     // lifecycle components
     compile 'android.arch.lifecycle:extensions:1.0.0-alpha1'
     annotationProcessor 'android.arch.lifecycle:compiler:1.0.0-alpha1'
@@ -50,8 +53,7 @@ dependencies {
     implementation 'pub.devrel:easypermissions:2.0.0'
 
     implementation 'com.github.chrisbanes:PhotoView:2.2.0'
-    //search view
-    implementation 'com.github.mancj:MaterialSearchBar:0.8.1'
+
 
     // viewanimation
 
