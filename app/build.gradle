@@ -22,7 +22,7 @@ android {
 }
 
 dependencies {
-    // room
+
     implementation 'androidx.legacy:legacy-support-v4:1.0.0-alpha1'
     compile 'android.arch.persistence.room:runtime:1.0.0-alpha1'
     annotationProcessor 'android.arch.persistence.room:compiler:1.0.0-alpha1'
@@ -60,5 +60,7 @@ dependencies {
 
     compile 'com.daimajia.easing:library:2.0@aar'
     compile 'com.daimajia.androidanimations:library:2.3@aar'
+
+    
 
 }
