@@ -50,8 +50,8 @@ public class MemeTempFragment extends Fragment implements EasyPermissions.Permis
 
     private static final int PERMISSION_REQUEST_CODE = 1;
 
-    private MemeModel memeModel;
-    private List<Meme> meme = new ArrayList<>();
+
+
 
     OnFragmentInteractionListener mListener;
     MemeViewModel viewModel;
