@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,7 +64,7 @@ public class MemeTempAdapter extends RecyclerView.Adapter<MemeTempAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
 
         final Meme m = MemeModels.get(position);
         holder.textView.setText(m.getName());
@@ -72,7 +73,17 @@ public class MemeTempAdapter extends RecyclerView.Adapter<MemeTempAdapter.ViewHo
        holder.love.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
-             myListener.onLoveClicked(m);
+               if (holder.love.getDrawable().getConstantState().toString() ==  holder.itemView.getResources().getDrawable(R.drawable.ic_favorite).getConstantState().toString()) {
+
+                   holder.love.setImageResource(R.drawable.ic_favorite_border);
+                   // delete bookmark
+               } else {
+                   Log.d("lhs",holder.love.getDrawable().getConstantState()+"");
+                   Log.d("RHS",holder.itemView.getResources().getDrawable(R.drawable.ic_favorite).getConstantState()+"");
+                   holder.love.setImageResource(R.drawable.ic_favorite);
+                   Log.d("lhs1",holder.love.getDrawable().getConstantState()+"");
+                   myListener.onLoveClicked(m);
+               }
            }
        });
 
