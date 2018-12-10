@@ -67,7 +67,8 @@ public class MemeTempAdapter extends RecyclerView.Adapter<MemeTempAdapter.ViewHo
 
         final Meme m = MemeModels.get(position);
         holder.textView.setText(m.getName());
-       Glide.with(holder.iv.getContext()).load(m.getUrl()).centerCrop().into(holder.iv);
+
+            Glide.with(holder.iv.getContext()).load(m.getUrl()).centerCrop().into(holder.iv);
        holder.love.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
