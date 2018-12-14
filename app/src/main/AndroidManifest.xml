@@ -17,8 +17,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".view.Main2Activity"
-            android:label="@string/title_activity_main2"
-            android:configChanges="orientation|screenSize|fontScale|keyboardHidden">
+            android:configChanges="orientation|screenSize|fontScale|keyboardHidden"
+            android:label="@string/title_activity_main2">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -27,7 +27,8 @@
             </intent-filter>
         </activity>
 
-        <!--<activity
+        <!--
+        <activity
             android:name=".view.Main2Activity"
             android:label="@string/title_activity_main2"
             android:theme="@style/AppTheme.NoActionBar">
@@ -36,7 +37,12 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> -->
+        </activity>
+        -->
+        <activity
+            android:name=".view.ActivityBookmarks"
+            android:label="@string/title_activity_bookmarks"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
