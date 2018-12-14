@@ -1,10 +1,8 @@
 
-package com.chiruhas.android.memes.view.adapter;
+package com.chiruhas.android.memes.view.Home.adapter;
 
 import android.content.Context;
 
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
 
@@ -17,11 +15,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.chiruhas.android.memes.Model.Meme_Model.MemeTemplates.Meme;
-import com.chiruhas.android.memes.Model.RoomModel.CacheMemeModel;
 import com.chiruhas.android.memes.R;
-import com.chiruhas.android.memes.viewmodel.MemeViewModel;
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 
 import java.util.ArrayList;
 import java.util.List;

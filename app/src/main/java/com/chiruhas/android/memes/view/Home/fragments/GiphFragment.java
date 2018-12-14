@@ -1,4 +1,4 @@
-package com.chiruhas.android.memes.view;
+package com.chiruhas.android.memes.view.Home.fragments;
 
 import android.content.Context;
 import android.os.Bundle;

@@ -1,47 +1,33 @@
-package com.chiruhas.android.memes.view;
+package com.chiruhas.android.memes.view.Home.fragments;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.Toast;
-
-import com.artjimlop.altex.AltexImageDownloader;
 
 import com.chiruhas.android.memes.Model.Meme_Model.MemeTemplates.Meme;
 import com.chiruhas.android.memes.Model.Meme_Model.MemeTemplates.MemeModel;
 import com.chiruhas.android.memes.Model.RoomModel.CacheMemeModel;
 import com.chiruhas.android.memes.R;
-import com.chiruhas.android.memes.Data.RetrofitApiCall.Api;
 import com.chiruhas.android.memes.databinding.FragmentMemeTempBinding;
-import com.chiruhas.android.memes.view.adapter.MemeTempAdapter;
+import com.chiruhas.android.memes.view.Home.adapter.MemeTempAdapter;
 import com.chiruhas.android.memes.viewmodel.MemeViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 

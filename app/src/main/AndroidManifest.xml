@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".view.Main2Activity"
+            android:name=".view.Home.activity.Main2Activity"
             android:configChanges="orientation|screenSize|fontScale|keyboardHidden"
             android:label="@string/title_activity_main2">
             <intent-filter>
@@ -40,9 +40,10 @@
         </activity>
         -->
         <activity
-            android:name=".view.ActivityBookmarks"
+            android:name=".view.Bookmarks.activity.ActivityBookmarks"
             android:label="@string/title_activity_bookmarks"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme"
+            android:parentActivityName=".view.Home.activity.Main2Activity"></activity>
     </application>
 
 </manifest>
