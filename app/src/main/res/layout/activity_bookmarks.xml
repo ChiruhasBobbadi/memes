@@ -7,7 +7,8 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context=".view.Bookmarks.activity.ActivityBookmarks"
-    android:theme="@style/AppTheme.NoActionBar">
+
+    >
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
@@ -15,7 +16,8 @@
         android:layout_height="wrap_content"
         android:background="@color/app_bar_background"
         android:paddingTop="@dimen/appbar_padding_top"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:elevation="0dp">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -29,6 +31,7 @@
             app:title="Bookmarks"
             app:titleTextColor="@color/colorPrimary"
             android:theme="@style/ToolbarTheme"
+            android:elevation="0dp"
 
             >
 
@@ -41,7 +44,8 @@
             android:background="@color/app_bar_background"
             app:tabIndicatorColor="@color/tab_selector"
             app:tabSelectedTextColor="@color/selected"
-            app:tabTextColor="@color/unselected">
+            app:tabTextColor="@color/unselected"
+            android:elevation="0dp">
 
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/tabItem"
