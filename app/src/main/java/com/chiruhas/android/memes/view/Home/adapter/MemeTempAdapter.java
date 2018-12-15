@@ -1,31 +1,30 @@
 
-package com.chiruhas.android.memes.view.adapter;
+package com.chiruhas.android.memes.view.Home.adapter;
 
 import android.content.Context;
 
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.artjimlop.altex.AltexImageDownloader;
 import com.bumptech.glide.Glide;
 import com.chiruhas.android.memes.Model.Meme_Model.MemeTemplates.Meme;
-import com.chiruhas.android.memes.Model.RoomModel.CacheMemeModel;
 import com.chiruhas.android.memes.R;
-import com.chiruhas.android.memes.viewmodel.MemeViewModel;
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.google.gson.reflect.TypeToken.get;
+
 
 
 public class MemeTempAdapter extends RecyclerView.Adapter<MemeTempAdapter.ViewHolder> {
@@ -63,37 +62,62 @@ public class MemeTempAdapter extends RecyclerView.Adapter<MemeTempAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
 
         final Meme m = MemeModels.get(position);
         holder.textView.setText(m.getName());
-       Glide.with(holder.iv.getContext()).load(m.getUrl()).centerCrop().into(holder.iv);
-       holder.love.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-             myListener.onLoveClicked(m);
-           }
-       });
+
+            Glide.with(holder.iv.getContext()).load(m.getUrl()).centerCrop().into(holder.iv);
+        holder.likeButton.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+                myListener.onLikeClicked(m);
+            }
+
+            @Override
+            public void unLiked(LikeButton likeButton) {
+
+                myListener.onDislikeClicked(m);
+            }
+        });
+
+        holder.download.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AltexImageDownloader.writeToDisk(holder.itemView.getContext(),m.getUrl(),"Memes/"+m.getName()+"");
+                try {
+                    Thread.sleep(1000);
+                    Toast.makeText(context, "Download Completed..", Toast.LENGTH_SHORT).show();
+                }
+                catch (Exception e)
+                {
+
+                }
+            }
+        });
 
     }
     public interface ItemListener {
-        void onLoveClicked(Meme m);
+        void onLikeClicked(Meme m);
+        void onDislikeClicked(Meme m);
     }
 
 
 
   static  public class ViewHolder extends RecyclerView.ViewHolder  {
 
-       // ImageView iv;
+
         TextView textView;
         ImageView iv;
-        ImageView love;
+       ImageView download;
+        LikeButton likeButton;
         public ViewHolder(View itemView) {
             super(itemView);
-            //iv=itemView.findViewById(R.id.image);
+
             textView = itemView.findViewById(R.id.text);
             iv = itemView.findViewById(R.id.iv);
-            love = itemView.findViewById(R.id.love);
+            likeButton = itemView.findViewById(R.id.star_button);
+            download = itemView.findViewById(R.id.download);
 
 //            YoYo.with(Techniques.FadeInUp)
 //                    .duration(1000)

@@ -3,18 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="350dp"
-    android:layout_marginBottom="10dp">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:elevation="4dp"
+    >
 
     <androidx.cardview.widget.CardView
         android:id="@+id/image"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
-        app:cardCornerRadius="4dp"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginBottom="15dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -27,25 +29,42 @@
 
             <TextView
                 android:id="@+id/text"
-                android:layout_width="140dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginStart="3dp"
-                android:layout_marginBottom="2dp"
-                android:layout_toEndOf="@+id/love"
-                android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:layout_marginBottom="3dp"
+                android:layout_toEndOf="@+id/star_button"
+                android:textColor="@color/app_bar_background"
+                android:textSize="17sp"
+                />
 
             <ImageView
-                android:id="@+id/love"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/download"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginEnd="7dp"
+                android:layout_marginEnd="80dp"
+                android:layout_marginBottom="3dp"
+                android:src="@drawable/ic_arrow_downward"/>
+
+
+            <com.like.LikeButton
+                android:id="@+id/star_button"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="15dp"
+
                 android:layout_marginBottom="0dp"
-                android:src="@drawable/ic_favorite" />
+                app:icon_size="24dp"
+                app:icon_type="heart"
+                app:like_drawable="@drawable/heart_on"
+                app:unlike_drawable="@drawable/ic_favorite_border" />
+
         </RelativeLayout>
 
 
