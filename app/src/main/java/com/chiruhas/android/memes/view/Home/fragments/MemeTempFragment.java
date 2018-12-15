@@ -1,12 +1,13 @@
 package com.chiruhas.android.memes.view.Home.fragments;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
+
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -20,28 +21,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.artjimlop.altex.AltexImageDownloader;
 import com.chiruhas.android.memes.Model.Meme_Model.MemeTemplates.Meme;
 import com.chiruhas.android.memes.Model.Meme_Model.MemeTemplates.MemeModel;
 import com.chiruhas.android.memes.Model.RoomModel.CacheMemeModel;
 import com.chiruhas.android.memes.R;
-import com.chiruhas.android.memes.databinding.FragmentMemeTempBinding;
+
 import com.chiruhas.android.memes.view.Home.adapter.MemeTempAdapter;
 import com.chiruhas.android.memes.viewmodel.MemeViewModel;
 
 import java.util.List;
 
 
-public class MemeTempFragment extends Fragment implements EasyPermissions.PermissionCallbacks {
+public class MemeTempFragment extends Fragment  {
 
 
-    private static final int PERMISSION_REQUEST_CODE = 1;
+
 
 
 
 
     OnFragmentInteractionListener mListener;
     MemeViewModel viewModel;
-    FragmentMemeTempBinding binding;
+
 
 
     MemeTempAdapter adapter;
@@ -95,21 +97,30 @@ public class MemeTempFragment extends Fragment implements EasyPermissions.Permis
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_meme_temp, container, false);
-        View view = binding.getRoot();
+
+        View view = inflater.inflate(R.layout.fragment_meme_temp, container, false);
         //instantiating our views
-        RecyclerView recyclerView = binding.recyclerView;
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
         adapter = new MemeTempAdapter(getActivity(), new MemeTempAdapter.ItemListener() {
             @Override
-            public void onLoveClicked(Meme m) {
-                viewModel.insert(new CacheMemeModel(m.getName(),m.getUrl(),m.getWidth(),m.getHeight()));
-                Toast.makeText(getContext(), "Cached", Toast.LENGTH_SHORT).show();
+            public void onLikeClicked(Meme m) {
+                viewModel.insert(new CacheMemeModel(m.getName(), m.getUrl(), m.getWidth(), m.getHeight()));
+
+                Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
             }
 
-
+            @Override
+            public void onDislikeClicked(Meme m) {
+                viewModel.delete(new CacheMemeModel(m.getName(), m.getUrl(), m.getWidth(), m.getHeight()));
+               // Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
+            }
         });
+
+
+
+
         recyclerView.setAdapter(adapter);
 
         return view;
@@ -127,62 +138,15 @@ public class MemeTempFragment extends Fragment implements EasyPermissions.Permis
 
 
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onMemeTempFragmentClick(Meme m);
     }
 
-//   private void downloadImage(final Meme m) {
-//        String perms[] = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
-//        if (EasyPermissions.hasPermissions(getActivity(), perms)) {
-//
-//            new ImageDownloader(m).execute();
-//
-//
-//        } else {
-//            EasyPermissions.requestPermissions(getActivity(), "We need permission for downloading file", PERMISSION_REQUEST_CODE, perms);
-//        }
-//    }
 
-    // !! Permisssion check code //
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
-    }
 
-    @Override
-    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
 
-    }
-
-    @Override
-    public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
-        if (EasyPermissions.somePermissionPermanentlyDenied(getActivity(), perms)) {
-            new AppSettingsDialog.Builder(getActivity()).build().show();
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == AppSettingsDialog.DEFAULT_SETTINGS_REQ_CODE) {
-            // Do something after user returned from app settings screen, like showing a Toast.
-            Toast.makeText(getActivity(), "Welcome back", Toast.LENGTH_SHORT)
-                    .show();
-        }
-    }
 
 
 //    public class ImageDownloader extends AsyncTask<Void, Integer, Void> {
@@ -219,14 +183,6 @@ public class MemeTempFragment extends Fragment implements EasyPermissions.Permis
 //        }
 //    }
 
-    class ClickHandlers {
-        Context context;
 
-        ClickHandlers(Context c) {
-            context = c;
-        }
-
-
-    }
 }
 

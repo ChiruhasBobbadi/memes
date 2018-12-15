@@ -29,36 +29,41 @@
 
             <TextView
                 android:id="@+id/text"
-                android:layout_width="140dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginStart="3dp"
                 android:layout_marginBottom="3dp"
-                android:layout_toEndOf="@+id/love"
-                android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:layout_toEndOf="@+id/star_button"
+                android:textColor="@color/app_bar_background"
+                android:textSize="17sp"
+                />
 
             <ImageView
                 android:id="@+id/download"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginEnd="80dp"
                 android:layout_marginBottom="3dp"
                 android:src="@drawable/ic_arrow_downward"/>
 
-            <ImageView
-                android:id="@+id/love"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+
+            <com.like.LikeButton
+                android:id="@+id/star_button"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginEnd="7dp"
-                android:layout_marginBottom="3dp"
-                android:src="@drawable/ic_favorite_border"
-                android:clickable="true"/>
+                android:layout_marginEnd="15dp"
+
+                android:layout_marginBottom="0dp"
+                app:icon_size="24dp"
+                app:icon_type="heart"
+                app:like_drawable="@drawable/heart_on"
+                app:unlike_drawable="@drawable/ic_favorite_border" />
 
         </RelativeLayout>
 

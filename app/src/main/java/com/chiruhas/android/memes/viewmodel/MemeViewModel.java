@@ -58,5 +58,9 @@ public class MemeViewModel extends AndroidViewModel {
     {
         return cache;
     }
+    public void delete(CacheMemeModel cacheMemeModel)
+    {
+        repo.delete(cacheMemeModel);
+    }
 
 }
