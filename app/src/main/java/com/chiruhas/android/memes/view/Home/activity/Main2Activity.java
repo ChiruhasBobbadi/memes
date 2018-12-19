@@ -152,11 +152,11 @@ public class Main2Activity extends AppCompatActivity implements MemeTempFragment
 
             @Override
             public boolean onQueryTextChange(String newText) {
-
+                query.clear();
                 for(Meme m :list)
                 {
 //                    Log.d("Querying","inside query text="+newText);
-                    if(m.getName().contains(newText))
+                    if(m.getName().toLowerCase().contains(newText))
                         query.add(m);
                 }
                 memeTempFragment.queryData(query);
