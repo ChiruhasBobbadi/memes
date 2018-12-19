@@ -19,6 +19,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.artjimlop.altex.AltexImageDownloader;
@@ -44,15 +45,25 @@ public class MemeTempFragment extends Fragment  {
     OnFragmentInteractionListener mListener;
     MemeViewModel viewModel;
 
+   private  ProgressBar progressBar;
 
-
-    MemeTempAdapter adapter;
-
+    private MemeTempAdapter adapter;
+    private RecyclerView recyclerView;
+    List<Meme> query;
 
 
     public MemeTempFragment() {
         // Required empty public constructor
     }
+
+    public void queryData(List<Meme> list)
+    {
+        query=list;
+
+
+    }
+
+
 
 
     @Override
@@ -86,7 +97,8 @@ public class MemeTempFragment extends Fragment  {
             @Override
             public void onChanged(MemeModel memeModel) {
                 adapter.setData(memeModel.getData().getMemes());
-
+                progressBar.setVisibility(View.GONE);
+                passDataToActivity(memeModel.getData().getMemes());
             }
         });
 
@@ -100,7 +112,9 @@ public class MemeTempFragment extends Fragment  {
 
         View view = inflater.inflate(R.layout.fragment_meme_temp, container, false);
         //instantiating our views
-        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
+         recyclerView = view.findViewById(R.id.recycler_view);
+        progressBar = view.findViewById(R.id.pbar);
+        progressBar.setVisibility(View.VISIBLE);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
         adapter = new MemeTempAdapter(getActivity(), new MemeTempAdapter.ItemListener() {
@@ -128,9 +142,9 @@ public class MemeTempFragment extends Fragment  {
 
 
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Meme m) {
+    public void passDataToActivity(List<Meme> memes) {
         if (mListener != null) {
-            mListener.onMemeTempFragmentClick(m);
+            mListener.memeCallback(memes);
         }
 
     }
@@ -141,7 +155,7 @@ public class MemeTempFragment extends Fragment  {
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onMemeTempFragmentClick(Meme m);
+        void memeCallback(List<Meme> memes);
     }
 
 

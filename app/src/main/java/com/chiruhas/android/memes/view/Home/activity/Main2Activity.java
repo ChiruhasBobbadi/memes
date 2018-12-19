@@ -1,10 +1,14 @@
 package com.chiruhas.android.memes.view.Home.activity;
 
 import com.chiruhas.android.memes.Model.Meme_Model.MemeTemplates.Meme;
+import com.chiruhas.android.memes.Model.RoomModel.CacheMemeModel;
 import com.chiruhas.android.memes.view.Bookmarks.activity.ActivityBookmarks;
 import com.chiruhas.android.memes.view.Home.fragments.GiphFragment;
 import com.chiruhas.android.memes.view.Home.fragments.MemeTempFragment;
 import com.chiruhas.android.memes.view.developer.activity.ActivityDeveloper;
+import com.chiruhas.android.memes.viewmodel.MemeViewModel;
+import com.ferfalk.simplesearchview.SimpleOnQueryTextListener;
+import com.ferfalk.simplesearchview.SimpleSearchView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 
@@ -18,6 +22,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -26,12 +32,16 @@ import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.chiruhas.android.memes.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Main2Activity extends AppCompatActivity implements MemeTempFragment.OnFragmentInteractionListener, GiphFragment.OnFragmentInteractionListener, EasyPermissions.PermissionCallbacks {
@@ -39,18 +49,20 @@ public class Main2Activity extends AppCompatActivity implements MemeTempFragment
     private static final int PERMISSION_REQUEST_CODE = 1;
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
+    MemeTempFragment memeTempFragment = new MemeTempFragment();
+
+   private MemeViewModel viewModel;
+   List<Meme> list = new ArrayList<>();
     private ViewPager mViewPager;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
+    SimpleSearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
-
+        searchView = findViewById(R.id.searchView);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -76,6 +88,7 @@ public class Main2Activity extends AppCompatActivity implements MemeTempFragment
 
         navigationView.setCheckedItem(R.id.home);
         // adding click events for navigation view
+
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -122,12 +135,36 @@ public class Main2Activity extends AppCompatActivity implements MemeTempFragment
         if (!EasyPermissions.hasPermissions(Main2Activity.this, perms)) {
             EasyPermissions.requestPermissions(Main2Activity.this, "This app need's permission for downloading media", PERMISSION_REQUEST_CODE, perms);
         }
+        query();
 
     }
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    public void query()
+    {
+        List<Meme> query=new ArrayList<>();
+        searchView.setOnQueryTextListener(new SimpleOnQueryTextListener() {
+
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                for(Meme m :list)
+                {
+//                    Log.d("Querying","inside query text="+newText);
+                    if(m.getName().contains(newText))
+                        query.add(m);
+                }
+                memeTempFragment.queryData(query);
+
+                return super.onQueryTextChange(newText);
+            }
+
+        });
     }
 
 
@@ -159,37 +196,23 @@ public class Main2Activity extends AppCompatActivity implements MemeTempFragment
             super.onBackPressed();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main2, menu);
-        return true;
-    }
+@Override
+public boolean onCreateOptionsMenu(Menu menu) {
+    MenuInflater inflater = getMenuInflater();
+    inflater.inflate(R.menu.search, menu);
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+    MenuItem item = menu.findItem(R.id.app_bar_search);
+    searchView.setMenuItem(item);
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
+    return true;
+}
 
     @Override
     public void onGiphFragCallBack() {
 
     }
 
-    @Override
-    public void onMemeTempFragmentClick(Meme m) {
 
-    }
 
     @Override
     public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
@@ -202,6 +225,11 @@ public class Main2Activity extends AppCompatActivity implements MemeTempFragment
         if (EasyPermissions.somePermissionPermanentlyDenied(Main2Activity.this, perms)) {
             new AppSettingsDialog.Builder(Main2Activity.this).build().show();
         }
+    }
+
+    @Override
+    public void memeCallback(List<Meme> memes) {
+        list = memes;
     }
 
 

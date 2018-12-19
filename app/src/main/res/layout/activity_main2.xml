@@ -28,6 +28,10 @@
             android:background="@color/app_bar_background"
             android:paddingTop="@dimen/appbar_padding_top"
             android:theme="@style/AppTheme.AppBarOverlay">
+            <FrameLayout
+                android:id="@+id/toolbar_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -45,6 +49,13 @@
                 >
 
             </androidx.appcompat.widget.Toolbar>
+            <com.ferfalk.simplesearchview.SimpleSearchView
+                android:id="@+id/searchView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimary"
+                app:voiceSearch="true"/>
+            </FrameLayout>
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabs"

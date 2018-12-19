@@ -25,8 +25,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
-
 public class MemeTempAdapter extends RecyclerView.Adapter<MemeTempAdapter.ViewHolder> {
 
     private List<Meme> MemeModels = new ArrayList<>();
@@ -34,18 +32,18 @@ public class MemeTempAdapter extends RecyclerView.Adapter<MemeTempAdapter.ViewHo
     private ItemListener myListener;
 
 
+    public MemeTempAdapter(Context conte, ItemListener item) {
 
-    public MemeTempAdapter(Context conte,ItemListener item) {
-
-        this.context=conte;
-        myListener=item;
+        this.context = conte;
+        myListener = item;
 
     }
-    public void setData(List<Meme> items)
-    {
+
+    public void setData(List<Meme> items) {
         MemeModels = items;
         notifyDataSetChanged();
     }
+
     public void setListener(ItemListener listener) {
         myListener = listener;
     }
@@ -67,7 +65,7 @@ public class MemeTempAdapter extends RecyclerView.Adapter<MemeTempAdapter.ViewHo
         final Meme m = MemeModels.get(position);
         holder.textView.setText(m.getName());
 
-            Glide.with(holder.iv.getContext()).load(m.getUrl()).centerCrop().into(holder.iv);
+        Glide.with(holder.iv.getContext()).load(m.getUrl()).centerCrop().into(holder.iv);
         holder.likeButton.setOnLikeListener(new OnLikeListener() {
             @Override
             public void liked(LikeButton likeButton) {
@@ -84,33 +82,33 @@ public class MemeTempAdapter extends RecyclerView.Adapter<MemeTempAdapter.ViewHo
         holder.download.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AltexImageDownloader.writeToDisk(holder.itemView.getContext(),m.getUrl(),"Memes/"+m.getName()+"");
+                AltexImageDownloader.writeToDisk(holder.itemView.getContext(), m.getUrl(), "Memes/" + m.getName() + "");
                 try {
                     Thread.sleep(1000);
                     Toast.makeText(context, "Download Completed..", Toast.LENGTH_SHORT).show();
-                }
-                catch (Exception e)
-                {
+                } catch (Exception e) {
 
                 }
             }
         });
 
     }
+
     public interface ItemListener {
         void onLikeClicked(Meme m);
+
         void onDislikeClicked(Meme m);
     }
 
 
-
-  static  public class ViewHolder extends RecyclerView.ViewHolder  {
+    static public class ViewHolder extends RecyclerView.ViewHolder {
 
 
         TextView textView;
         ImageView iv;
-       ImageView download;
+        ImageView download;
         LikeButton likeButton;
+
         public ViewHolder(View itemView) {
             super(itemView);
 
@@ -127,8 +125,6 @@ public class MemeTempAdapter extends RecyclerView.Adapter<MemeTempAdapter.ViewHo
         }
 
     }
-
-
 
 
 }
